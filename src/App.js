@@ -13,7 +13,6 @@ function App() {
                 <Route path='/' exact>
                     <Home />
                 </Route>
-                {/* <Route path='/users'></Route> */}
                 <Route path='/sign_in'>
                     <SignIn />
                 </Route>
