@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import clubLogo from '../../Resources/images/logos/manchester_city_logo.png';
+import { toast } from 'react-toastify';
 
 export const ClubLogo = props => {
     const template = (
@@ -22,4 +23,16 @@ export const ClubLogo = props => {
     } else {
         return template;
     }
+};
+
+export const showToastError = msg => {
+    toast.error(msg, {
+        position: toast.POSITION.TOP_LEFT,
+    });
+};
+
+export const showToastSuccess = msg => {
+    toast.success(msg, {
+        position: toast.POSITION.TOP_LEFT,
+    });
 };

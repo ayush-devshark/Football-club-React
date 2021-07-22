@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { firebase } from '../../firebase';
 import { CircularProgress } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { showToastError, showToastSuccess } from '../utils/tools';
 
 const SignIn = props => {
     const [isLoading, setIsLoading] = useState(false);
+    const history = useHistory();
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: 'adam@email.com',
+            password: 'qwerty12',
         },
         validationSchema: Yup.object({
             email: Yup.string()
@@ -30,12 +32,15 @@ const SignIn = props => {
             .auth()
             .signInWithEmailAndPassword(values.email, values.password)
             .then(() => {
-                // props.history.push('/dashboard');
-                return console.log('Signed In');
+                showToastSuccess('Welcome!');
+                history.push('/dashboard');
+
+                // console.log('Signed In');
+                // return;
             })
             .catch(err => {
                 setIsLoading(false);
-                alert(err);
+                showToastError(err.message);
                 // Todo: Show Toast
             });
     };
