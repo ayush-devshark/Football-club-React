@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import clubLogo from '../../Resources/images/logos/manchester_city_logo.png';
 import { toast } from 'react-toastify';
+import { firebase } from '../../firebase';
 
 export const ClubLogo = props => {
     const template = (
@@ -35,4 +36,16 @@ export const showToastSuccess = msg => {
     toast.success(msg, {
         position: toast.POSITION.TOP_LEFT,
     });
+};
+
+export const logoutHandler = () => {
+    firebase
+        .auth()
+        .signOut()
+        .then(() => {
+            showToastSuccess('Signed out succesfully');
+        })
+        .catch(err => {
+            showToastError(err.message);
+        });
 };

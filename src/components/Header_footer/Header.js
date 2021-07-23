@@ -2,22 +2,9 @@ import React from 'react';
 import { Toolbar, AppBar, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ClubLogo } from '../utils/tools';
-import { firebase } from '../../firebase';
-import { showToastError, showToastSuccess } from '../utils/tools';
+import { logoutHandler } from '../utils/tools';
 
 const Header = ({ user }) => {
-    const logoutHandler = () => {
-        firebase
-            .auth()
-            .signOut()
-            .then(() => {
-                showToastSuccess('Signed out succesfully');
-            })
-            .catch(err => {
-                showToastError(err.message);
-            });
-    };
-
     return (
         <AppBar
             position='fixed'
