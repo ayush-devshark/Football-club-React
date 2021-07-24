@@ -9,6 +9,5 @@ const AuthApp = props => {
 };
 
 firebase.auth().onAuthStateChanged(user => {
-    console.log(user);
     ReactDOM.render(<AuthApp user={user} />, document.getElementById('root'));
 });
