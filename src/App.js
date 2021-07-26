@@ -10,12 +10,18 @@ import Home from './components/Home/index';
 import SignIn from './components/SignIn/index';
 import Dashboard from './components/Admin/Dashboard';
 import AuthGuard from './Hoc/Auth';
+import AdminPlayers from './components/Admin/players';
 
 function App({ user }) {
     return (
         <BrowserRouter>
             <Header user={user} />
             <Switch>
+                <Route
+                    path='/admin_players'
+                    exact
+                    component={AuthGuard(AdminPlayers)}
+                />
                 <Route
                     path='/dashboard'
                     exact
