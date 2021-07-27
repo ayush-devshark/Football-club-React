@@ -11,7 +11,6 @@ import {
     TableHead,
     TableRow,
     Paper,
-    CircularProgress,
 } from '@material-ui/core';
 
 const AdminPlayers = () => {
