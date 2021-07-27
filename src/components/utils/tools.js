@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import clubLogo from '../../Resources/images/logos/manchester_city_logo.png';
 import { toast } from 'react-toastify';
 import { firebase } from '../../firebase';
+import { FormHelperText } from '@material-ui/core';
 
 export const ClubLogo = props => {
     const template = (
@@ -72,4 +73,24 @@ export const logoutHandler = () => {
         .catch(err => {
             showToastError(err.message);
         });
+};
+
+export const textErrorHelper = (formik, values) => ({
+    error: formik.errors[values] && formik.touched[values],
+    helperText:
+        formik.errors[values] && formik.touched[values]
+            ? formik.errors[values]
+            : null,
+});
+
+export const selectErrorHelper = (formik, values) => {
+    if (formik.errors[values] && formik.touched[values]) {
+        return <FormHelperText>{formik.errors[values]}</FormHelperText>;
+    } else {
+        return false;
+    }
+};
+
+export const selectIsError = (formik, values) => {
+    return formik.errors[values] && formik.touched[values];
 };
