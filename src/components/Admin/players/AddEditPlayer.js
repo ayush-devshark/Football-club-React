@@ -33,25 +33,67 @@ const AddEditPlayer = props => {
             lastname: Yup.string().required('This input is required'),
             number: Yup.number()
                 .required('This input is required')
-                .min('0', 'Minimum cannot be less than 0')
-                .max('99', 'Maximum must be below 100'),
+                .min(0, 'Minimum cannot be less than 0')
+                .max(99, 'Maximum must be below 100'),
             position: Yup.string().required('This input is required'),
         }),
+        onSubmit: values => {
+            submitForm(values);
+        },
     });
+
+    const submitForm = values => {
+        let dataToSubmit = values;
+
+        if (actionType === 'add') {
+            setLoading(true);
+            playersCollection
+                .add(dataToSubmit)
+                .then(() => {
+                    showToastSuccess('Player successfully added');
+                    formik.resetForm();
+                    props.history.push('/admin_players');
+                })
+                .catch(err => {
+                    showToastError(err);
+                });
+        } else {
+            playersCollection
+                .doc(props.match.params.playerId)
+                .update(dataToSubmit)
+                .then(() => {
+                    showToastSuccess('Player updated');
+                })
+                .catch(err => showToastError(err))
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
 
     useEffect(() => {
         const param = props.match.params.playerId;
 
         if (param) {
-            setActionType('edit');
-            setvalues({ name: 'Andy' });
+            playersCollection
+                .doc(param)
+                .get()
+                .then(snapshot => {
+                    if (snapshot.data()) {
+                        setActionType('edit');
+                        setvalues(snapshot.data());
+                    } else {
+                        showToastError('Sorry, nothing was found');
+                    }
+                })
+                .catch(err => {
+                    showToastError(err);
+                });
         } else {
             setActionType('add');
             setvalues(defaultValues);
         }
     }, [props.match.params.playerId]);
-
-    console.log(actionType, values);
 
     return (
         <AdminLayout
@@ -89,6 +131,7 @@ const AddEditPlayer = props => {
                         <div className='mb-5'>
                             <FormControl>
                                 <TextField
+                                    type='number'
                                     id='number'
                                     name='number'
                                     variant='outlined'
