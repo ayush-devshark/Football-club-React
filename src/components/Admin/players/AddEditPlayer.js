@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import FileUpload from '../../utils/fileUploader';
 import AdminLayout from '../../../Hoc/AdminLayout';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -16,7 +17,7 @@ import {
     FormControl,
     Button,
 } from '@material-ui/core';
-import { playersCollection, firebase } from '../../../firebase';
+import { playersCollection } from '../../../firebase';
 
 const defaultValues = { name: '', lastname: '', number: '', position: '' };
 
@@ -102,7 +103,10 @@ const AddEditPlayer = props => {
             <div className='editplayers_dialog_wrapper'>
                 <div>
                     <form onSubmit={formik.handleSubmit}>
-                        image <hr />
+                        <FormControl>
+                            <FileUpload dir='player' />
+                        </FormControl>
+                        <hr />
                         <h4>Player info</h4>
                         <div className='mb-5'>
                             <FormControl>
