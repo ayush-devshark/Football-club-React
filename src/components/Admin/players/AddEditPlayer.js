@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FileUpload from '../../utils/fileUploader';
 import AdminLayout from '../../../Hoc/AdminLayout';
 import { useFormik } from 'formik';
+import { firebase } from '../../../firebase';
 import * as Yup from 'yup';
 import {
     showToastError,
@@ -19,12 +20,19 @@ import {
 } from '@material-ui/core';
 import { playersCollection } from '../../../firebase';
 
-const defaultValues = { name: '', lastname: '', number: '', position: '' };
+const defaultValues = {
+    name: '',
+    lastname: '',
+    number: '',
+    position: '',
+    image: '',
+};
 
 const AddEditPlayer = props => {
     const [loading, setLoading] = useState(false);
     const [actionType, setActionType] = useState('');
     const [values, setvalues] = useState(defaultValues);
+    const [defaultImg, setDefaultImg] = useState('');
 
     const formik = useFormik({
         enableReinitialize: true,
@@ -37,6 +45,7 @@ const AddEditPlayer = props => {
                 .min(0, 'Minimum cannot be less than 0')
                 .max(99, 'Maximum must be below 100'),
             position: Yup.string().required('This input is required'),
+            image: Yup.string().required('This input is required'),
         }),
         onSubmit: values => {
             submitForm(values);
@@ -81,6 +90,16 @@ const AddEditPlayer = props => {
                 .get()
                 .then(snapshot => {
                     if (snapshot.data()) {
+                        firebase
+                            .storage()
+                            .ref('players')
+                            .child(snapshot.data().image)
+                            .getDownloadURL()
+                            .then(url => {
+                                updateImageName(snapshot.data().image);
+                                setDefaultImg(url);
+                            });
+
                         setActionType('edit');
                         setvalues(snapshot.data());
                     } else {
@@ -96,6 +115,15 @@ const AddEditPlayer = props => {
         }
     }, [props.match.params.playerId]);
 
+    const updateImageName = filename => {
+        formik.setFieldValue('image', filename);
+    };
+
+    const resetImage = () => {
+        formik.setFieldValue('image', '');
+        setDefaultImg('');
+    };
+
     return (
         <AdminLayout
             title={actionType === 'add' ? 'Add player' : 'Edit player'}
@@ -103,8 +131,17 @@ const AddEditPlayer = props => {
             <div className='editplayers_dialog_wrapper'>
                 <div>
                     <form onSubmit={formik.handleSubmit}>
-                        <FormControl>
-                            <FileUpload dir='player' />
+                        <FormControl error={selectIsError(formik, 'image')}>
+                            <FileUpload
+                                dir='players'
+                                defaultImg={defaultImg}
+                                defaultImgName={formik.values.image}
+                                filename={filename => {
+                                    updateImageName(filename);
+                                }}
+                                resetImage={() => resetImage()}
+                            />
+                            {selectErrorHelper(formik, 'image')}
                         </FormControl>
                         <hr />
                         <h4>Player info</h4>

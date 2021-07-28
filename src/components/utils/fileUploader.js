@@ -34,10 +34,26 @@ class FileUpload extends Component {
             .child(filename)
             .getDownloadURL()
             .then(url => this.setState({ fileURL: url }));
+
+        this.props.filename(filename);
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.defaultImg) {
+            return (state = {
+                name: props.defaultImgName,
+                fileURL: props.defaultImg,
+            });
+        }
+        return null;
+    }
+
+    uploadAgain = () => {
+        this.setState({ name: '', isUploading: false, fileURL: '' });
+        this.props.resetImage();
     };
 
     render() {
-        console.log(this.state);
         return (
             <div>
                 {!this.state.fileURL ? (
@@ -73,7 +89,10 @@ class FileUpload extends Component {
                             width='100%'
                             alt='player'
                         />
-                        <div className='remove' onClick={''}>
+                        <div
+                            className='remove'
+                            onClick={() => this.uploadAgain()}
+                        >
                             Remove
                         </div>
                     </div>
