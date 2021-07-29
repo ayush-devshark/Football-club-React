@@ -12,6 +12,7 @@ import Dashboard from './components/Admin/Dashboard';
 import AuthGuard from './Hoc/Auth';
 import AdminPlayers from './components/Admin/players';
 import AddEditPlayer from './components/Admin/players/AddEditPlayer';
+import TheTeam from './components/theTeam';
 
 function App({ user }) {
     return (
@@ -33,11 +34,8 @@ function App({ user }) {
                     exact
                     component={AuthGuard(AdminPlayers)}
                 />
-                <Route
-                    path='/dashboard'
-                    exact
-                    component={AuthGuard(Dashboard)}
-                />
+                <Route path='/dashboard' component={AuthGuard(Dashboard)} />
+                <Route path='/the_team' component={TheTeam} />
                 <Route
                     path='/sign_in'
                     exact
