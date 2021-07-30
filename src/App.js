@@ -22,7 +22,7 @@ function App({ user }) {
             <Header user={user} />
             <Switch>
                 <Route
-                    path='/admin_matches/edit_match/:math_id'
+                    path='/admin_matches/edit_match/:matchId'
                     exact
                     component={AuthGuard(AddEditMatch)}
                 />
