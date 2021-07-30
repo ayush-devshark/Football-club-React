@@ -13,12 +13,30 @@ import AuthGuard from './Hoc/Auth';
 import AdminPlayers from './components/Admin/players';
 import AddEditPlayer from './components/Admin/players/AddEditPlayer';
 import TheTeam from './components/theTeam';
+import AdminMatches from './components/Admin/matches';
+import AddEditMatch from './components/Admin/matches/AddEditMatch';
 
 function App({ user }) {
     return (
         <BrowserRouter>
             <Header user={user} />
             <Switch>
+                <Route
+                    path='/admin_matches/edit_match/:math_id'
+                    exact
+                    component={AuthGuard(AddEditMatch)}
+                />
+                <Route
+                    path='/admin_matches/add_match'
+                    exact
+                    component={AuthGuard(AddEditMatch)}
+                />
+                <Route
+                    path='/admin_matches'
+                    exact
+                    component={AuthGuard(AdminMatches)}
+                />
+
                 <Route
                     path='/admin_players/edit_player/:playerId'
                     exact
@@ -34,13 +52,16 @@ function App({ user }) {
                     exact
                     component={AuthGuard(AdminPlayers)}
                 />
+
                 <Route path='/dashboard' component={AuthGuard(Dashboard)} />
                 <Route path='/the_team' component={TheTeam} />
+
                 <Route
                     path='/sign_in'
                     exact
                     component={props => <SignIn {...props} user={user} />}
                 />
+
                 <Route path='/' exact component={Home} />
             </Switch>
             <ToastContainer />

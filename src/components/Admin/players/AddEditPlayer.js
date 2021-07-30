@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import FileUpload from '../../utils/fileUploader';
 import AdminLayout from '../../../Hoc/AdminLayout';
 import { useFormik } from 'formik';
-import { firebase } from '../../../firebase';
+import { firebase, playersCollection } from '../../../firebase';
 import * as Yup from 'yup';
+
 import {
     showToastError,
     showToastSuccess,
@@ -11,6 +12,7 @@ import {
     selectErrorHelper,
     selectIsError,
 } from '../../utils/tools';
+
 import {
     TextField,
     Select,
@@ -18,7 +20,6 @@ import {
     FormControl,
     Button,
 } from '@material-ui/core';
-import { playersCollection } from '../../../firebase';
 
 const defaultValues = {
     name: '',

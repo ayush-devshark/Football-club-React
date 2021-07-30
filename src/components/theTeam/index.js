@@ -25,6 +25,7 @@ const TheTeam = () => {
                     players.forEach((player, index) => {
                         promises.push(
                             new Promise((resolve, reject) => {
+                                // BUG : Check players code.
                                 firebase
                                     .storage()
                                     .ref('player')
