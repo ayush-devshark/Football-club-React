@@ -116,7 +116,7 @@ const AdminMatches = () => {
                                           {match.resultLocal}
                                       </TableCell>
                                       <TableCell>
-                                          {match.final === 'Yes' ? (
+                                          {match.final === 'yes' ? (
                                               <span className='matches_tag_red'>
                                                   Final
                                               </span>

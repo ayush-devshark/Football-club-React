@@ -65,7 +65,7 @@ const AddEditMatch = props => {
                 .oneOf(['yes', 'no']),
         }),
         onSubmit: values => {
-            console.log(values);
+            submitForm(values);
         },
     });
 
@@ -113,6 +113,40 @@ const AddEditMatch = props => {
                   </MenuItem>
               ))
             : null;
+
+    const submitForm = values => {
+        let dataToSubmit = values;
+
+        teams.forEach(team => {
+            if (team.shortName === dataToSubmit.local) {
+                dataToSubmit['localThmb'] = team.thmb;
+            }
+            if (team.shortName === dataToSubmit.away) {
+                dataToSubmit['awayThmb'] = team.thmb;
+            }
+        });
+
+        setLoading(true);
+        if (actionType === 'add') {
+            mathchesCollection
+                .add(dataToSubmit)
+                .then(() => {
+                    showToastSuccess('Match Successfully added');
+                    formik.resetForm();
+                })
+                .catch(err => {
+                    showToastError('Sorry something went wrong');
+                })
+                .finally(setLoading(false));
+        } else {
+            mathchesCollection
+                .doc(props.match.params.matchId)
+                .update(dataToSubmit)
+                .then(() => showToastSuccess('Match data successfully updated'))
+                .catch(err => showToastError('Something went wrong', err))
+                .finally(setLoading(false));
+        }
+    };
 
     return (
         <AdminLayout title={actionType === 'add' ? 'Add match' : 'Edit match'}>
