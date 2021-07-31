@@ -28,7 +28,7 @@ const TheTeam = () => {
                                 // BUG : Check players code.
                                 firebase
                                     .storage()
-                                    .ref('player')
+                                    .ref('players')
                                     .child(player.image)
                                     .getDownloadURL()
                                     .then(url => {

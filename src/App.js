@@ -8,13 +8,16 @@ import Footer from './components/Header_footer/Footer';
 import Header from './components/Header_footer/Header';
 import Home from './components/Home/index';
 import SignIn from './components/SignIn/index';
-import Dashboard from './components/Admin/Dashboard';
-import AuthGuard from './Hoc/Auth';
-import AdminPlayers from './components/Admin/players';
-import AddEditPlayer from './components/Admin/players/AddEditPlayer';
 import TheTeam from './components/theTeam';
+import TheMatches from './components/theMatches';
+
+import AuthGuard from './Hoc/Auth';
+
+import Dashboard from './components/Admin/Dashboard';
+import AdminPlayers from './components/Admin/players';
 import AdminMatches from './components/Admin/matches';
 import AddEditMatch from './components/Admin/matches/AddEditMatch';
+import AddEditPlayer from './components/Admin/players/AddEditPlayer';
 
 function App({ user }) {
     return (
@@ -54,6 +57,7 @@ function App({ user }) {
                 />
 
                 <Route path='/dashboard' component={AuthGuard(Dashboard)} />
+                <Route path='/the_matches' component={TheMatches} />
                 <Route path='/the_team' component={TheTeam} />
 
                 <Route
