@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { showToastError, showToastSuccess } from '../utils/tools';
+import { showToastError } from '../utils/tools';
 
 import { CircularProgress } from '@material-ui/core';
 import { mathchesCollection } from '../../firebase';
@@ -163,6 +163,8 @@ const TheMatches = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            <MatchesList matches={state.filterMatches} />
                         </div>
 
                         <div className='right'>
