@@ -19,6 +19,8 @@ import AdminMatches from './components/Admin/matches';
 import AddEditMatch from './components/Admin/matches/AddEditMatch';
 import AddEditPlayer from './components/Admin/players/AddEditPlayer';
 
+import NotFound from './components/NotFound';
+
 function App({ user }) {
     return (
         <BrowserRouter>
@@ -26,33 +28,27 @@ function App({ user }) {
             <Switch>
                 <Route
                     path='/admin_matches/edit_match/:matchId'
-                    exact
                     component={AuthGuard(AddEditMatch)}
                 />
                 <Route
                     path='/admin_matches/add_match'
-                    exact
                     component={AuthGuard(AddEditMatch)}
                 />
                 <Route
                     path='/admin_matches'
-                    exact
                     component={AuthGuard(AdminMatches)}
                 />
 
                 <Route
                     path='/admin_players/edit_player/:playerId'
-                    exact
                     component={AuthGuard(AddEditPlayer)}
                 />
                 <Route
                     path='/admin_players/add_player'
-                    exact
                     component={AuthGuard(AddEditPlayer)}
                 />
                 <Route
                     path='/admin_players'
-                    exact
                     component={AuthGuard(AdminPlayers)}
                 />
 
@@ -62,11 +58,11 @@ function App({ user }) {
 
                 <Route
                     path='/sign_in'
-                    exact
                     component={props => <SignIn {...props} user={user} />}
                 />
 
                 <Route path='/' exact component={Home} />
+                <Route component={NotFound} />
             </Switch>
             <ToastContainer />
             <Footer />
